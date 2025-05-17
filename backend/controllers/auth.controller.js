@@ -38,7 +38,6 @@ export const signup = async (req, res) => {
 
 		await user.save();
 
-		// jwt
 		generateTokenAndSetCookie(res, user._id);
 
 		await sendVerificationEmail(user.email, verificationToken);
@@ -134,7 +133,7 @@ export const forgotPassword = async (req, res) => {
 			return res.status(400).json({ success: false, message: "User not found" });
 		}
 
-		
+		// Generate reset token
 		const resetToken = crypto.randomBytes(20).toString("hex");
 		const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
 
